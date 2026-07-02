@@ -6,12 +6,10 @@ import org.example.service.CollectionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+import java.util.List;
 
 @Validated
 @RestController
@@ -31,5 +29,17 @@ public class CollectionController {
         System.out.println("Saved Collection: " + saved);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
-}
 
+    @GetMapping
+    public ResponseEntity<List<Collection>> getAll() {
+        List<Collection> collections = collectionService.getAllCollections();
+        return ResponseEntity.ok(collections);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Collection> getById(@PathVariable Long id) {
+        return collectionService.getCollectionById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+}

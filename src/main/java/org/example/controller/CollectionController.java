@@ -14,6 +14,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("/api/collections")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class CollectionController {
 
     private final CollectionService collectionService;
